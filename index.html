@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BatchQuery Chatbot</title>
+    <title>Picalyze AI</title>
     <link rel="stylesheet" href="style.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,7 +13,6 @@
       rel="stylesheet"
     />
 
-    <!-- ✅ Font Awesome CDN (latest free version) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -24,14 +23,18 @@
   <body>
     <div class="app-container intro-mode">
       <div class="chat-header">
-        <div class="chat-header-logo">
-          <object data="/logo.svg" class="chat-header-icon"></object>
-        </div>
+        <a href="/" class="chat-header-logo" style="text-decoration: none; color: inherit">
+          <object data="/logo.svg" class="chat-header-icon "></object>
+          <div class="chat-header-text">Picalyze AI</div>
+        </a>
 
-        <button id="clearChatBtn">Clear Chat</button>
+        <button id="clearChatBtn">
+          <div id="clearChatIcon" class="clear-chat-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+          <div class="clear-chat-text">Clear Chat</div>
+        </button>
       </div>
 
-      <div class="chat-wrapper">
+      <div id="chatWrapper" class="chat-wrapper">
         <div id="chatContainer" class="chat-container"></div>
       </div>
 
@@ -39,7 +42,7 @@
         <div class="input-bar-intro-text">
           <div class="intro-title">
             <div class="chat-header-logo">
-              <object data="/logo.svg" class="chat-intro-icon"></object>
+              <object data="/logo.svg" class="chat-intro-icon "></object>
               <div class="chat-intro-text">Picalyze AI</div>
             </div>
           </div>
@@ -56,6 +59,13 @@
           <button id="submitBtn"><i class="fa-solid fa-arrow-up"></i></button>
         </div>
         <div id="errorMessage" class="error-message"></div>
+      </div>
+    </div>
+
+    <div id="imageOverlay" class="image-overlay hidden">
+      <div class="overlay-content">
+        <button id="closeOverlay" class="close-btn" aria-label="Close image overlay">×</button>
+        <img id="overlayImage" src="" alt="Expanded view" />
       </div>
     </div>
 
