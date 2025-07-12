@@ -1,0 +1,7 @@
+<svg class="chat-header-icon" width="1em" height="1em" viewBox="0 0 217 217" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M39.426 151.149L15.3843 127.107C5.23072 116.954 5.23072 100.492 15.3843 90.3379L90.3377 15.3846C100.491 5.23093 116.954 5.23093 127.107 15.3846L202.061 90.3379C212.214 100.492 212.214 116.954 202.061 127.107L127.107 202.061C116.954 212.214 100.491 212.214 90.3377 202.061L63.8212 175.544"
+    stroke="#6c79a3" stroke-width="14" />
+  <circle cx="109.083" cy="109.083" r="34.7779" transform="rotate(135 109.083 109.083)" stroke="#6c79a3" stroke-width="14" />
+  <path d="M80.1523 135.172L17.1523 198.172" stroke="#6c79a3" stroke-width="14" stroke-linecap="round" />
+</svg>

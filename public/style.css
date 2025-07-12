@@ -1,0 +1,658 @@
+/* ---------------------------------
+ * Root Color Variables for Dark and Light mode
+ * --------------------------------- */
+
+:root {
+  /* Light Mode */
+  --color-bg: rgb(255, 255, 255);
+  --color-bg-input: #ffffff;
+  --color-text: #000000;
+  --color-hover: #919fce6e;
+  --color-active: #d3d3d3;
+  --color-bubble-user: #8ca2e93f;
+  --color-border: #bebebe;
+  --color-error: #ff3f3f;
+  --color-border-bottom: #e6e6e6;
+  --color-highlight: #6c79a3;
+}
+.invert-on-dark {
+  filter: invert(0);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Mode */
+    --color-bg: #181818;
+    --color-bg-input: #272727;
+
+    --color-text: #ffffff;
+    --color-hover: #3f465c;
+    --color-active: #d3d3d3;
+    --color-bubble-user: #6c79a37c;
+    --color-border: #525252;
+    --color-error: #ff3f3f;
+    --color-border-bottom: #666666;
+  }
+  .invert-on-dark {
+    filter: invert(1);
+  }
+}
+
+/* ---------------------------------
+ * Base Reset & Typography
+ * --------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ---------------------------------
+ * Layout Containers
+ * --------------------------------- */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.chat-wrapper {
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  height: calc(100vh - 130px);
+  scrollbar-color: rgb(170, 170, 170) rgba(255, 255, 255, 0);
+}
+
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 5rem 1rem 10rem;
+  gap: 1rem;
+  width: 100%;
+  max-width: 48rem;
+}
+
+/* ---------------------------------
+ * Chat Bubbles
+ * --------------------------------- */
+.chat-bubble {
+  max-width: 100%;
+  padding: 0.8rem;
+  border-radius: 1rem;
+  position: relative;
+  font-size: 1rem;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+/* User Message */
+.chat-bubble.user {
+  align-self: flex-end;
+  background-color: var(--color-bubble-user);
+  color: var(--color-text);
+}
+
+/* Bot Message */
+.chat-bubble.bot {
+  align-self: flex-start;
+  width: 100%;
+  background-color: transparent; /* adjust if needed */
+  color: var(--color-text);
+}
+
+/* Inline Images in Bot Responses */
+.chat-bubble img {
+  display: block;
+  width: auto;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.chat-bubble img:hover {
+  cursor: pointer;
+}
+
+/* Image Response Caption */
+.image-response {
+  border-bottom: 1px solid var(--color-border-bottom);
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 2rem;
+}
+
+/* ---------------------------------
+ * Header
+ * --------------------------------- */
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  color: var(--color-text);
+  z-index: 2;
+}
+
+.chat-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.chat-header-icon {
+  height: 40px;
+}
+
+.chat-header-text {
+  font-size: 1.5rem;
+  transition: opacity 0.3s ease;
+}
+
+/* ---------------------------------
+ * Clear Chat Button
+ * --------------------------------- */
+#clearChatBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-size: 1rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: "Inter";
+  transition: all 0.2s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#clearChatBtn:hover {
+  background-color: var(--color-hover);
+}
+
+.app-container:not(.intro-mode) #clearChatBtn {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.clear-chat-icon.rotate {
+  animation: spin360 0.5s ease;
+}
+
+@keyframes spin360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------------------------------
+ * Input Bar
+ * --------------------------------- */
+.input-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto 3rem auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  width: 100%;
+  max-width: 48rem;
+  padding: 0.75rem;
+
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: 1.8rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.26);
+
+  box-sizing: border-box;
+  overflow: visible;
+  max-height: 20rem;
+
+  transition: all 0.5s ease-out;
+}
+
+/* Positioning during intro */
+.app-container.intro-mode .input-bar {
+  bottom: calc(50% - 160px);
+}
+
+/* After intro, return to bottom */
+.app-container:not(.intro-mode) .input-bar {
+  bottom: 0;
+}
+
+/* ---------------------------------
+ * Intro Text in Input Bar
+ * --------------------------------- */
+.input-bar-intro-text {
+  position: absolute;
+  top: -8.5rem;
+  width: calc(100% - 2rem);
+
+  text-align: center;
+  color: var(--color-text);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.4s ease;
+}
+
+/* Hidden when not in intro mode */
+.app-container:not(.intro-mode) .input-bar-intro-text {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Title and logo inside intro text */
+.intro-title {
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Subtitle in intro text */
+.intro-sub {
+  opacity: 0.7;
+}
+
+.chat-intro-icon {
+  height: 70px;
+}
+
+.chat-intro-text {
+  font-size: 3.6rem;
+  color: var(--color-highlight);
+}
+
+/* ---------------------------------
+ * Input Area Footer (Upload + Submit)
+ * --------------------------------- */
+.input-bar-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ---------------------------------
+ * User Question Textarea
+ * --------------------------------- */
+#userQuestion {
+  width: 100%;
+  min-height: 3rem;
+  max-height: 10rem;
+
+  padding: 0.5rem;
+  line-height: 1.4;
+  font-size: 1rem;
+
+  font-family: "Inter", sans-serif;
+  color: var(--color-text);
+  background-color: transparent;
+  border: none;
+  resize: none;
+  overflow-y: auto;
+
+  box-sizing: border-box;
+  display: block;
+}
+
+#userQuestion::placeholder {
+  color: var(--color-text);
+  opacity: 0.6;
+}
+
+#userQuestion:focus {
+  outline: none;
+}
+
+/* ---------------------------------
+ * Submit Button
+ * --------------------------------- */
+#submitBtn {
+  width: 2.2rem;
+  height: 2.2rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--color-highlight);
+  color: var(--color-bg);
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+#submitBtn:hover {
+  opacity: 0.7;
+}
+
+/* ---------------------------------
+ * Error Message
+ * --------------------------------- */
+.error-message {
+  width: calc(100% - 22px);
+
+  position: absolute;
+  bottom: -2rem;
+
+  min-height: 1.2em;
+  text-align: center;
+
+  font-size: 0.95rem;
+  color: var(--color-error);
+
+  border-radius: 1rem;
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.error-message.errorVisible {
+  opacity: 1;
+}
+
+/* ---------------------------------
+ * Upload Button Label
+ * --------------------------------- */
+#customUploadLabel {
+  display: inline-block;
+  font-size: 1rem;
+  color: var(--color-text);
+
+  padding: 0.6rem 0.8rem;
+  border-radius: 50px;
+  cursor: pointer;
+  text-align: center;
+
+  transition: background-color 0.2s ease, all 0.2s ease;
+}
+
+#customUploadLabel:hover {
+  background-color: var(--color-hover);
+}
+
+#customUploadLabel:active {
+  background-color: var(--color-active);
+}
+
+/* ---------------------------------
+ * Image Upload Area
+ * --------------------------------- */
+.upload-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ---------------------------------
+ * Image Preview Boxes (Before Sending Message)
+ * --------------------------------- */
+.image-preview {
+  position: relative;
+  width: 100px;
+  height: 100px;
+
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #f2f2f2;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------------------------------
+ * Remove Uploaded Image Button (X)
+ * --------------------------------- */
+.image-preview .remove-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+
+  width: 22px;
+  height: 22px;
+  font-size: 24px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+
+  font-family: "Inter";
+  font-weight: 200;
+  cursor: pointer;
+
+  padding: 0 0 3px 0;
+}
+
+.image-preview .remove-btn:hover {
+  background: rgba(0, 0, 0, 1);
+}
+
+/* ---------------------------------
+ * Fullscreen Image Overlay
+ * --------------------------------- */
+.image-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.8);
+  transition: opacity 0.3s ease;
+}
+
+.image-overlay.hidden {
+  display: none;
+}
+
+/* ---------------------------------
+ * Modal Content Box
+ * --------------------------------- */
+.overlay-content {
+  position: relative;
+  max-width: 70vw;
+  max-height: 70vh;
+}
+
+/* ---------------------------------
+ * Enlarged Image
+ * --------------------------------- */
+#overlayImage {
+  width: 100%;
+  height: auto;
+
+  max-width: 70vw;
+  max-height: 70vh;
+
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------------------------------
+ * Close Expanded Image Button (×)
+ * --------------------------------- */
+.close-btn {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+
+  width: 40px;
+  height: 40px;
+
+  font-size: 1.5rem;
+  background: #fff;
+  color: #000;
+
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------------------------------
+ * Animations
+ * --------------------------------- */
+
+/* Fade in and slide up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* Spinner rotation (used on .rotate) */
+@keyframes spin360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.clear-chat-icon.rotate {
+  animation: spin360 0.5s ease;
+}
+
+/* Draws SVG path */
+@keyframes drawPath {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Loader fade loop */
+@keyframes fadeLoop {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Loader visuals */
+.svg-loader {
+  display: inline-block;
+  animation: fadeLoop 2.5s ease-in-out infinite;
+}
+
+.loader-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawPath 2.5s ease-in-out infinite;
+}
+
+/* ---------------------------------
+ * Responsive Styles
+ * --------------------------------- */
+
+/* Tablets and below (≤1199px) */
+@media (max-width: 1199px) {
+  .chat-header {
+    background-color: var(--color-bg);
+    z-index: 2;
+  }
+
+  .chat-wrapper {
+    height: calc(100vh - 240px);
+    margin-top: 72px;
+  }
+}
+
+/* Phones and small tablets (≤767px) */
+@media (max-width: 767px) {
+  .input-bar {
+    max-width: 95%;
+    padding: 0.5rem;
+    border-radius: 1rem;
+  }
+
+  .image-preview {
+    width: 75px;
+    height: 75px;
+  }
+
+  .clear-chat {
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .chat-intro-text {
+    font-size: 3rem;
+  }
+}
