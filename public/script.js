@@ -44,8 +44,6 @@ function resetInputs() {
   questionInput.value = "";
 }
 
-
-
 function renderPreviews() {
   const currentCount = uploadArea.children.length;
   const newFiles = selectedFiles.slice(currentCount);
@@ -182,8 +180,6 @@ submitBtn.addEventListener("click", async () => {
   const botBubble = createBotLoaderBubble();
   scrollToBottom();
 
-  const openaiApiKey =
-    "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"; // Secure this key properly in production
   let responsesHTML = "";
   questionInput.value = "";
   uploadArea.innerHTML = "";
@@ -212,13 +208,15 @@ submitBtn.addEventListener("click", async () => {
         };
 
         try {
-          const res = await fetch("https://api.openai.com/v1/chat/completions", {
+          const res = await fetch("https://YOUR-RENDER-URL.onrender.com/api/analyze-image", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${openaiApiKey}`,
             },
-            body: JSON.stringify(payload),
+            body: JSON.stringify({
+              base64Image: imageDataUrl,
+              question,
+            }),
           });
 
           const data = await res.json();
