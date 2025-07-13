@@ -220,7 +220,7 @@ submitBtn.addEventListener("click", async () => {
           });
 
           const data = await res.json();
-          const reply = data.choices?.[0]?.message?.content || "No response.";
+          const reply = data.reply || "No response.";
 
           responsesHTML += `
             <div class="image-response">
