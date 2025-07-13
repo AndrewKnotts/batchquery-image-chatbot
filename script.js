@@ -103,14 +103,23 @@ function autoResize(el) {
 
 imageInput.addEventListener("change", (e) => {
   const newFiles = Array.from(e.target.files);
-  const total = selectedFiles.length + newFiles.length;
+  const validImages = newFiles.filter((file) => file.type.startsWith("image/"));
+
+  const invalidCount = newFiles.length - validImages.length;
+
+  if (invalidCount > 0) {
+    showError("Only image files are allowed.");
+  }
+
+  const total = selectedFiles.length + validImages.length;
   if (total > 4) {
     const allowed = 4 - selectedFiles.length;
     showError("You can only upload up to 4 images");
-    selectedFiles.push(...newFiles.slice(0, allowed));
+    selectedFiles.push(...validImages.slice(0, allowed));
   } else {
-    selectedFiles.push(...newFiles);
+    selectedFiles.push(...validImages);
   }
+
   renderPreviews();
   imageInput.value = "";
 });
@@ -152,6 +161,56 @@ document.addEventListener("click", (e) => {
     overlayImage.src = e.target.src;
     imageOverlay.classList.remove("hidden");
   }
+});
+
+// =========================
+// Drag and Drop Functionality
+// =========================
+const dragOverlay = document.getElementById("dragOverlay");
+let dragCounter = 0;
+
+window.addEventListener("dragenter", (e) => {
+  e.preventDefault();
+  dragCounter++;
+  dragOverlay.classList.remove("hidden");
+});
+
+window.addEventListener("dragleave", (e) => {
+  e.preventDefault();
+  dragCounter--;
+  if (dragCounter === 0) {
+    dragOverlay.classList.add("hidden");
+  }
+});
+
+window.addEventListener("dragover", (e) => {
+  e.preventDefault();
+});
+
+window.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dragCounter = 0;
+  dragOverlay.classList.add("hidden");
+
+  const droppedFiles = Array.from(e.dataTransfer.files);
+
+  const validImages = droppedFiles.filter((file) => file.type.startsWith("image/"));
+
+  const invalidCount = droppedFiles.length - validImages.length;
+  if (invalidCount > 0) {
+    showError("Only image files are allowed.");
+  }
+
+  const total = selectedFiles.length + validImages.length;
+  if (total > 4) {
+    const allowed = 4 - selectedFiles.length;
+    showError("You can only upload up to 4 images.");
+    selectedFiles.push(...validImages.slice(0, allowed));
+  } else {
+    selectedFiles.push(...validImages);
+  }
+
+  renderPreviews();
 });
 
 // =========================

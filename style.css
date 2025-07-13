@@ -501,6 +501,11 @@ body {
   position: relative;
   max-width: 70vw;
   max-height: 70vh;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* ---------------------------------

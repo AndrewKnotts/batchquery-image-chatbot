@@ -6,7 +6,7 @@
     <title>Picalyze AI</title>
 
     <link rel="icon" type="image/svg+xml" href="logo.svg" />
-    
+
     <link rel="stylesheet" href="style.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,7 +27,7 @@
     <div class="app-container intro-mode">
       <div class="chat-header">
         <a href="/" class="chat-header-logo" style="text-decoration: none; color: inherit">
-          <object data="logo.svg" class="chat-header-icon "></object>
+          <object data="logo.svg" class="chat-header-icon"></object>
           <div class="chat-header-text">Picalyze AI</div>
         </a>
 
@@ -45,7 +45,7 @@
         <div class="input-bar-intro-text">
           <div class="intro-title">
             <div class="chat-header-logo">
-              <object data="logo.svg" class="chat-intro-icon "></object>
+              <object data="logo.svg" class="chat-intro-icon"></object>
               <div class="chat-intro-text">Picalyze AI</div>
             </div>
           </div>
@@ -69,6 +69,13 @@
       <div class="overlay-content">
         <button id="closeOverlay" class="close-btn" aria-label="Close image overlay">×</button>
         <img id="overlayImage" src="" alt="Expanded view" />
+      </div>
+    </div>
+
+    <div id="dragOverlay" class="image-overlay hidden">
+      <div class="overlay-content">
+        <i class="fa-solid fa-image" style="font-size: 48px; margin-bottom: 16px"></i>
+        <div style="font-size: 18px">Drop image files to upload</div>
       </div>
     </div>
 
