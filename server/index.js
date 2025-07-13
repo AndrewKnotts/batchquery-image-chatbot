@@ -36,6 +36,9 @@ app.use(express.json({ limit: "25mb" }));
 app.post("/api/analyze-image", async (req, res) => {
   const { base64Image, question } = req.body;
 
+  console.log("📥 Incoming question:", question);
+  console.log("🖼️ Image size:", base64Image?.length);
+
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
@@ -51,13 +54,20 @@ app.post("/api/analyze-image", async (req, res) => {
       max_tokens: 500,
     });
 
-    res.json({ reply: response.choices[0].message.content });
+    console.log("✅ OpenAI raw response:", JSON.stringify(response, null, 2));
+
+    const reply = response.choices?.[0]?.message?.content;
+
+    if (!reply) {
+      return res.status(500).json({ error: "No content in OpenAI response." });
+    }
+
+    res.json({ reply });
   } catch (error) {
-    console.error("OpenAI error:", error);
-    res.status(500).json({ error: "Failed to get response from OpenAI" });
+    console.error("❌ OpenAI error:", error);
+    res.status(500).json({ error: "Failed to get response from OpenAI." });
   }
 });
-
 // 🏁 Start the server
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
