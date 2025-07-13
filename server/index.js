@@ -1,4 +1,7 @@
-// index.js (ESM-compliant)
+
+// =====================
+// Import Dependencies
+// =====================
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -7,22 +10,31 @@ import fetch, { Headers } from "cross-fetch";
 import { Blob } from "fetch-blob";
 import { FormData } from "formdata-node";
 
-// 🌐 Polyfill globals needed for OpenAI SDK
+// =====================
+// Polyfill Globals (for OpenAI SDK compatibility in Node)
+// =====================
 globalThis.fetch = fetch;
 globalThis.Headers = Headers;
 globalThis.Blob = Blob;
 globalThis.FormData = FormData;
 
-// 🌱 Load environment variables
+// =====================
+// Load Environment Variables
+// =====================
 dotenv.config();
 
-// 🧠 Initialize OpenAI
+// =====================
+// Initialize OpenAI
+// =====================
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// 🚀 Create Express app
+// =====================
+// Create Express App
+// =====================
 const app = express();
+
 app.use(
   cors({
     origin: "https://andrewknotts.github.io",
@@ -30,14 +42,14 @@ app.use(
     allowedHeaders: ["Content-Type"],
   })
 );
+
 app.use(express.json({ limit: "25mb" }));
 
-// 📦 Endpoint to analyze image and question
+// =====================
+// API Endpoint: Analyze Image + Question
+// =====================
 app.post("/api/analyze-image", async (req, res) => {
   const { base64Image, question } = req.body;
-
-  console.log("📥 Incoming question:", question);
-  console.log("🖼️ Image size:", base64Image?.length);
 
   try {
     const response = await openai.chat.completions.create({
@@ -54,8 +66,6 @@ app.post("/api/analyze-image", async (req, res) => {
       max_tokens: 500,
     });
 
-    console.log("✅ OpenAI raw response:", JSON.stringify(response, null, 2));
-
     const reply = response.choices?.[0]?.message?.content;
 
     if (!reply) {
@@ -63,13 +73,14 @@ app.post("/api/analyze-image", async (req, res) => {
     }
 
     res.json({ reply });
-  } catch (error) {
-    console.error("❌ OpenAI error:", error);
+  } catch {
     res.status(500).json({ error: "Failed to get response from OpenAI." });
   }
 });
-// 🏁 Start the server
+
+// =====================
+// Start Server
+// =====================
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`✅ Server listening on port ${PORT}`);
-});
+
+app.listen(PORT);
