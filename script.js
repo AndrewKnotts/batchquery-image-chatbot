@@ -208,7 +208,7 @@ submitBtn.addEventListener("click", async () => {
         };
 
         try {
-          const res = await fetch("https://batchquery-api.onrender.com.onrender.com/api/analyze-image", {
+          const res = await fetch("https://batchquery-api.onrender.com/api/analyze-image", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
