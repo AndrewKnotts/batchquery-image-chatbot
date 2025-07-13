@@ -23,7 +23,13 @@ const openai = new OpenAI({
 
 // 🚀 Create Express app
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://andrewknotts.github.io",
+    methods: ["POST"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 app.use(express.json({ limit: "25mb" }));
 
 // 📦 Endpoint to analyze image and question
